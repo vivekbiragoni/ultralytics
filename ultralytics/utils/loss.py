@@ -596,14 +596,31 @@ class v8PoseLoss(v8DetectionLoss):
         return kpts_loss, kpts_obj_loss
 
 
+# class v8ClassificationLoss:
+#     """Criterion class for computing training losses."""
+
+#     def __call__(self, preds, batch):
+#         """Compute the classification loss between predictions and true labels."""
+#         loss = F.cross_entropy(preds, batch["cls"], reduction="mean")
+#         loss_items = loss.detach()
+#         return loss, loss_items
 class v8ClassificationLoss:
-    """Criterion class for computing training losses."""
+    """Criterion class for computing training losses with Focal Loss."""
+
+    def __init__(self, alpha=0.25, gamma=2):
+        self.alpha = alpha
+        self.gamma = gamma
 
     def __call__(self, preds, batch):
-        """Compute the classification loss between predictions and true labels."""
-        loss = F.cross_entropy(preds, batch["cls"], reduction="mean")
+        """Compute the focal loss between predictions and true labels."""
+        targets = batch["cls"]
+        bce_loss = F.cross_entropy(preds, targets, reduction='none')
+        pt = torch.exp(-bce_loss)
+        focal_loss = self.alpha * (1 - pt) ** self.gamma * bce_loss
+        loss = focal_loss.mean()
         loss_items = loss.detach()
-        return loss, loss_items
+        return loss, loss_items 
+
 
 
 class v8OBBLoss(v8DetectionLoss):
