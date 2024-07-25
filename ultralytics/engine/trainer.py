@@ -43,6 +43,7 @@ from ultralytics.utils.files import get_latest_run
 from ultralytics.utils.torch_utils import (
     EarlyStopping,
     ModelEMA,
+    autocast,
     convert_optimizer_state_dict_to_fp16,
     init_seeds,
     one_cycle,
@@ -376,7 +377,7 @@ class BaseTrainer:
                             x["momentum"] = np.interp(ni, xi, [self.args.warmup_momentum, self.args.momentum])
 
                 # Forward
-                with torch.cuda.amp.autocast(self.amp):
+                with autocast(self.amp):
                     batch = self.preprocess_batch(batch)
                     self.loss, self.loss_items = self.model(batch)
                     if RANK != -1:
