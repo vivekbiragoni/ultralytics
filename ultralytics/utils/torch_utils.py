@@ -1,5 +1,5 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
-
+import contextlib
 import gc
 import math
 import os
@@ -101,12 +101,15 @@ def autocast(enabled: bool, device: str = "cuda"):
 
 def get_cpu_info():
     """Return a string with system CPU information, i.e. 'Apple M2'."""
-    import cpuinfo  # pip install py-cpuinfo
+    with contextlib.suppress(Exception):
+        import cpuinfo  # pip install py-cpuinfo
 
-    k = "brand_raw", "hardware_raw", "arch_string_raw"  # info keys sorted by preference (not all keys always available)
-    info = cpuinfo.get_cpu_info()  # info dict
-    string = info.get(k[0] if k[0] in info else k[1] if k[1] in info else k[2], "unknown")
-    return string.replace("(R)", "").replace("CPU ", "").replace("@ ", "")
+        k = "brand_raw", "hardware_raw", "arch_string_raw"  # keys sorted by preference (not all keys always available)
+        info = cpuinfo.get_cpu_info()  # info dict
+        string = info.get(k[0] if k[0] in info else k[1] if k[1] in info else k[2], "unknown")
+        return string.replace("(R)", "").replace("CPU ", "").replace("@ ", "")
+
+    return "unknown"
 
 
 def select_device(device="", batch=0, newline=False, verbose=True):
@@ -422,13 +425,6 @@ def scale_img(img, ratio=1.0, same_shape=False, gs=32):
     if not same_shape:  # pad/crop img
         h, w = (math.ceil(x * ratio / gs) * gs for x in (h, w))
     return F.pad(img, [0, w - s[1], 0, h - s[0]], value=0.447)  # value = imagenet mean
-
-
-def make_divisible(x, divisor):
-    """Returns nearest x divisible by divisor."""
-    if isinstance(divisor, torch.Tensor):
-        divisor = int(divisor.max())  # to int
-    return math.ceil(x / divisor) * divisor
 
 
 def copy_attr(a, b, include=(), exclude=()):
