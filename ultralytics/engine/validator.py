@@ -110,7 +110,8 @@ class BaseValidator:
         if self.training:
             self.device = trainer.device
             self.data = trainer.data
-            self.args.half = self.device.type != "cpu"  # force FP16 val during training
+            # force FP16 val during training
+            self.args.half = self.device.type != "cpu" and trainer.amp
             model = trainer.ema.ema or trainer.model
             model = model.half() if self.args.half else model.float()
             # self.model = model
@@ -118,6 +119,8 @@ class BaseValidator:
             self.args.plots &= trainer.stopper.possible_stop or (trainer.epoch == trainer.epochs - 1)
             model.eval()
         else:
+            if str(self.args.model).endswith(".yaml"):
+                LOGGER.warning("WARNING ⚠️ validating an untrained model YAML will result in 0 mAP.")
             callbacks.add_integration_callbacks(self)
             model = AutoBackend(
                 weights=model or self.args.model,
@@ -202,8 +205,9 @@ class BaseValidator:
             return {k: round(float(v), 5) for k, v in results.items()}  # return results as 5 decimal place floats
         else:
             LOGGER.info(
-                "Speed: %.1fms preprocess, %.1fms inference, %.1fms loss, %.1fms postprocess per image"
-                % tuple(self.speed.values())
+                "Speed: {:.1f}ms preprocess, {:.1f}ms inference, {:.1f}ms loss, {:.1f}ms postprocess per image".format(
+                    *tuple(self.speed.values())
+                )
             )
             if self.args.save_json and self.jdict:
                 with open(str(self.save_dir / "predictions.json"), "w") as f:

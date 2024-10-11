@@ -6,7 +6,7 @@ keywords: Ultralytics, YOLO, object detection datasets, dataset formats, COCO, d
 
 # Object Detection Datasets Overview
 
-Training a robust and accurate object detection model requires a comprehensive dataset. This guide introduces various formats of datasets that are compatible with the Ultralytics YOLO model and provides insights into their structure, usage, and how to convert between different formats.
+Training a robust and accurate [object detection](https://www.ultralytics.com/glossary/object-detection) model requires a comprehensive dataset. This guide introduces various formats of datasets that are compatible with the Ultralytics YOLO model and provides insights into their structure, usage, and how to convert between different formats.
 
 ## Supported Dataset Formats
 
@@ -16,20 +16,20 @@ The Ultralytics YOLO format is a dataset configuration format that allows you to
 
 ```yaml
 # Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/coco8  # dataset root dir
-train: images/train  # train images (relative to 'path') 4 images
-val: images/val  # val images (relative to 'path') 4 images
-test:  # test images (optional)
+path: ../datasets/coco8 # dataset root dir
+train: images/train # train images (relative to 'path') 4 images
+val: images/val # val images (relative to 'path') 4 images
+test: # test images (optional)
 
 # Classes (80 COCO classes)
 names:
-  0: person
-  1: bicycle
-  2: car
-  # ...
-  77: teddy bear
-  78: hair drier
-  79: toothbrush
+    0: person
+    1: bicycle
+    2: car
+    # ...
+    77: teddy bear
+    78: hair drier
+    79: toothbrush
 ```
 
 Labels for this format should be exported to YOLO format with one `*.txt` file per image. If there are no objects in an image, no `*.txt` file is required. The `*.txt` file should be formatted with one row per object in `class x_center y_center width height` format. Box coordinates must be in **normalized xywh** format (from 0 to 1). If your boxes are in pixels, you should divide `x_center` and `width` by image width, and `y_center` and `height` by image height. Class numbers should be zero-indexed (start with 0).
@@ -48,7 +48,7 @@ When using the Ultralytics YOLO format, organize your training and validation im
 
 Here's how you can use these formats to train your model:
 
-!!! Example
+!!! example
 
     === "Python"
 
@@ -56,7 +56,7 @@ Here's how you can use these formats to train your model:
         from ultralytics import YOLO
 
         # Load a model
-        model = YOLO("yolov8n.pt")  # load a pretrained model (recommended for training)
+        model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
 
         # Train the model
         results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
@@ -66,7 +66,7 @@ Here's how you can use these formats to train your model:
 
         ```bash
         # Start training from a pretrained *.pt model
-        yolo detect train data=coco8.yaml model=yolov8n.pt epochs=100 imgsz=640
+        yolo detect train data=coco8.yaml model=yolo11n.pt epochs=100 imgsz=640
         ```
 
 ## Supported Datasets
@@ -100,7 +100,7 @@ If you have your own dataset and would like to use it for training detection mod
 
 You can easily convert labels from the popular COCO dataset format to the YOLO format using the following code snippet:
 
-!!! Example
+!!! example
 
     === "Python"
 
@@ -121,15 +121,15 @@ Remember to double-check if the dataset you want to use is compatible with your 
 The Ultralytics YOLO format is a structured configuration for defining datasets in your training projects. It involves setting paths to your training, validation, and testing images and corresponding labels. For example:
 
 ```yaml
-path: ../datasets/coco8  # dataset root directory
-train: images/train  # training images (relative to 'path')
-val: images/val  # validation images (relative to 'path')
-test:  # optional test images
+path: ../datasets/coco8 # dataset root directory
+train: images/train # training images (relative to 'path')
+val: images/val # validation images (relative to 'path')
+test: # optional test images
 names:
-  0: person
-  1: bicycle
-  2: car
-  # ...
+    0: person
+    1: bicycle
+    2: car
+    # ...
 ```
 
 Labels are saved in `*.txt` files with one file per image, formatted as `class x_center y_center width height` with normalized coordinates. For a detailed guide, see the [COCO8 dataset example](coco8.md).
@@ -158,31 +158,31 @@ Ultralytics YOLO supports a wide range of datasets, including:
 - [Objects365](objects365.md)
 - [OpenImagesV7](open-images-v7.md)
 
-Each dataset page provides detailed information on the structure and usage tailored for efficient YOLOv8 training. Explore the full list in the [Supported Datasets](#supported-datasets) section.
+Each dataset page provides detailed information on the structure and usage tailored for efficient YOLO11 training. Explore the full list in the [Supported Datasets](#supported-datasets) section.
 
-### How do I start training a YOLOv8 model using my dataset?
+### How do I start training a YOLO11 model using my dataset?
 
-To start training a YOLOv8 model, ensure your dataset is formatted correctly and the paths are defined in a YAML file. Use the following script to begin training:
+To start training a YOLO11 model, ensure your dataset is formatted correctly and the paths are defined in a YAML file. Use the following script to begin training:
 
-!!! Example
+!!! example
 
     === "Python"
-    
+
         ```python
         from ultralytics import YOLO
 
-        model = YOLO("yolov8n.pt")  # Load a pretrained model
+        model = YOLO("yolo11n.pt")  # Load a pretrained model
         results = model.train(data="path/to/your_dataset.yaml", epochs=100, imgsz=640)
         ```
 
     === "CLI"
-    
+
         ```bash
-        yolo detect train data=path/to/your_dataset.yaml model=yolov8n.pt epochs=100 imgsz=640
+        yolo detect train data=path/to/your_dataset.yaml model=yolo11n.pt epochs=100 imgsz=640
         ```
 
 Refer to the [Usage](#usage) section for more details on utilizing different modes, including CLI commands.
 
 ### Where can I find practical examples of using Ultralytics YOLO for object detection?
 
-Ultralytics provides numerous examples and practical guides for using YOLOv8 in diverse applications. For a comprehensive overview, visit the [Ultralytics Blog](https://www.ultralytics.com/blog) where you can find case studies, detailed tutorials, and community stories showcasing object detection, segmentation, and more with YOLOv8. For specific examples, check the [Usage](../../modes/predict.md) section in the documentation.
+Ultralytics provides numerous examples and practical guides for using YOLO11 in diverse applications. For a comprehensive overview, visit the [Ultralytics Blog](https://www.ultralytics.com/blog) where you can find case studies, detailed tutorials, and community stories showcasing object detection, segmentation, and more with YOLO11. For specific examples, check the [Usage](../../modes/predict.md) section in the documentation.

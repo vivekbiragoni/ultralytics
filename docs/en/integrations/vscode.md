@@ -15,7 +15,7 @@ keywords: Visual Studio Code, VS Code, deep learning, convolutional neural netwo
 
 ## Features and Benefits
 
-✅ Are you a data scientist or machine learning engineer building computer vision applications with Ultralytics?
+✅ Are you a data scientist or [machine learning](https://www.ultralytics.com/glossary/machine-learning-ml) engineer building computer vision applications with Ultralytics?
 
 ✅ Do you despise writing the same blocks of code repeatedly?
 
@@ -39,7 +39,7 @@ Want to let us know what you use for developing code? Head over to our Discourse
 
 ## Installing the Extension
 
-!!! Note
+!!! note
 
     Any code environment that will allow for installing VS Code extensions _should be_ compatible with the Ultralytics-snippets extension. After publishing the extension, it was discovered that [neovim](https://neovim.io/) can be made compatible with VS Code extensions. To learn more see the [`neovim` install section][neovim install] of the Readme in the [Ultralytics-Snippets repository][repo].
 
@@ -127,14 +127,14 @@ These are the current snippet categories available to the Ultralytics-snippets e
 
 The `ultra.examples` snippets are to useful for anyone looking to learn how to get started with the basics of working with Ultralytics YOLO. Example snippets are intended to run once inserted (some have dropdown options as well). An example of this is shown at the animation at the [top] of this page, where after the snippet is inserted, all code is selected and run interactively using <kbd>Shift ⇑</kbd>+<kbd>Enter ↵</kbd>.
 
-!!! Example
+!!! example
 
     Just like the animation shows at the [top] of this page, you can use the snippet `ultra.example-yolo-predict` to insert the following code example. Once inserted, the only configurable option is for the model scale which can be any one of: `n`, `s`, `m`, `l`, or `x`.
 
     ```python
     from ultralytics import ASSETS, YOLO
 
-    model = YOLO("yolov8n.pt", task="detect")
+    model = YOLO("yolo11n.pt", task="detect")
     results = model(source=ASSETS / "bus.jpg")
 
     for result in results:
@@ -146,7 +146,7 @@ The `ultra.examples` snippets are to useful for anyone looking to learn how to g
 
 The aim for snippets other than the `ultra.examples` are for making development easier and quicker when working with Ultralytics. A common code block to be used in many projects, is to iterate the list of `Results` returned from using the model [predict] method. The `ultra.result-loop` snippet can help with this.
 
-!!! Example
+!!! example
 
     Using the `ultra.result-loop` will insert the following default code (including comments).
 
@@ -170,7 +170,7 @@ However, since Ultralytics supports numerous [tasks], when [working with inferen
 
 There are over 💯 keyword arguments for all of the various Ultralytics [tasks] and [modes]! That's a lot to remember and it can be easy to forget if the argument is `save_frame` or `save_frames` (it's definitely `save_frames` by the way). This is where the `ultra.kwargs` snippets can help out!
 
-!!! Example
+!!! example
 
     To insert the [predict] method, including all [inference arguments], use `ultra.kwargs-predict`, which will insert the following code (including comments).
 
@@ -181,7 +181,7 @@ There are over 💯 keyword arguments for all of the various Ultralytics [tasks]
         conf=0.25,  # (float) minimum confidence threshold
         iou=0.7,  # (float) intersection over union (IoU) threshold for NMS
         vid_stride=1,  # (int) video frame-rate stride
-        stream_buffer=False,  # (bool) buffer all streaming frames (True) or return the most recent frame (False)
+        stream_buffer=False,  # (bool) buffer incoming frames in a queue (True) or only keep the most recent frame (False)
         visualize=False,  # (bool) visualize model features
         augment=False,  # (bool) apply image augmentation to prediction sources
         agnostic_nms=False,  # (bool) class-agnostic NMS
@@ -207,7 +207,7 @@ The best way to find out what snippets are available is to download and install 
 
 ## Conclusion
 
-The Ultralytics-Snippets extension for VS Code is designed to empower data scientists and machine learning engineers to build computer vision applications using Ultralytics YOLO more efficiently. By providing pre-built code snippets and useful examples, we help you focus on what matters most: creating innovative solutions. Please share your feedback by visiting the [extension page on the VS Code marketplace] and leaving a review. ⭐
+The Ultralytics-Snippets extension for VS Code is designed to empower data scientists and machine learning engineers to build [computer vision](https://www.ultralytics.com/glossary/computer-vision-cv) applications using Ultralytics YOLO more efficiently. By providing pre-built code snippets and useful examples, we help you focus on what matters most: creating innovative solutions. Please share your feedback by visiting the [extension page on the VS Code marketplace] and leaving a review. ⭐
 
 ## FAQ
 
